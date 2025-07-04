@@ -1,5 +1,5 @@
 import random
-from items import ITEMS
+from Items import ITEMS
 
 class Market:
     def __init__(self):

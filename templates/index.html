@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Market Prices</h2>
+<ul>
+  {% for item, price in market.items() %}
+    <li>
+      {{ item }} — {{ price }} gold
+      <form action="{{ url_for('trade') }}" method="POST" style="display:inline;">
+        <input type="hidden" name="item" value="{{ item }}">
+        <button name="action" value="buy">Buy</button>
+        <button name="action" value="sell">Sell</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+
+<h2>Your Inventory</h2>
+<ul>
+  <li>Gold: {{ inventory['gold'] }}</li>
+  {% for item, qty in inventory.items() if item != 'gold' %}
+    <li>{{ item }}: {{ qty }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
