@@ -16,7 +16,8 @@ body {
   padding: 2rem;
   border-radius: 20px;
   box-shadow: 0 0 20px #6e2ca7;
-  width: 700px;
+  width: 90%;
+  max-width: 700px;
   animation: fadeIn 0.8s ease-out;
 }
 
@@ -130,4 +131,50 @@ button:hover {
   color: #666;
   margin-top: 2rem;
   font-family: 'Courier New', monospace;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .branding {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .sigil {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.5rem;
+  }
+
+  .brand-text h1 {
+    font-size: 1.4rem;
+  }
+
+  .byline {
+    font-size: 0.7rem;
+  }
+
+  .market-info h2,
+  .rumors h2 {
+    font-size: 1rem;
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .inventory p {
+    font-size: 0.85rem;
+  }
+
+  .footer {
+    font-size: 0.65rem;
+  }
 }
