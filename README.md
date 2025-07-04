@@ -17,7 +17,7 @@ Sharpen your instincts, interpret the signs, and manipulate the arcane markets t
 Clone the repo and run the game using Python 3.10+:
 
 ```bash
-git clone https://github.com/your-username/dark-market.git
+git clone https://github.com/Nullgrimoire/dark-market.git
 cd dark-market
 python3 main.py
 ```
