@@ -54,7 +54,7 @@ Use gold wisely. Random events can spike or crash prices. Can you master the arc
 
 ## 👑 Credits
 
-**Project Lead:** [Your Name or Handle]  
+**Project Lead:** [Nullgrimoire]  
 Inspired by D&D, tycoon games, and chaotic capitalism.
 
 ## 📜 License
