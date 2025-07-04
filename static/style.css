@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
   margin: 0;
-  font-family: 'Courier New', monospace;
+  font-family: 'Press Start 2P', monospace;
   background: linear-gradient(to bottom right, #0a0a0f, #1a1a2e);
   color: #e0d6f5;
   display: flex;
@@ -15,6 +17,45 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 20px #6e2ca7;
   width: 700px;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.branding {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sigil {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #47FDD6;
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 10px #47FDD6; }
+  50% { box-shadow: 0 0 20px #47FDD6, 0 0 40px #6e2ca7; }
+}
+
+.brand-text h1 {
+  font-size: 2rem;
+  margin: 0;
+  color: #bb86fc;
+}
+
+.byline {
+  font-size: 0.8rem;
+  color: #47FDD6;
+  margin: 0;
 }
 
 .header {
@@ -33,6 +74,12 @@ body {
 h2 {
   color: #bb86fc;
   margin-top: 1.5rem;
+  animation: glowText 4s ease-in-out infinite;
+}
+
+@keyframes glowText {
+  0%, 100% { text-shadow: 0 0 4px #bb86fc; }
+  50% { text-shadow: 0 0 8px #bb86fc, 0 0 12px #6e2ca7; }
 }
 
 .gold {
@@ -75,4 +122,12 @@ button:hover {
   color: #000;
   transform: scale(1.1);
   box-shadow: 0 0 10px #bb86fc, 0 0 20px #6e2ca7;
+}
+
+.footer {
+  font-size: 0.75rem;
+  text-align: center;
+  color: #666;
+  margin-top: 2rem;
+  font-family: 'Courier New', monospace;
 }

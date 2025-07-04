@@ -28,30 +28,36 @@ market_rumors = {
     "Cursed Gem": "🔁 The value of Cursed Gem remains unchanged."
 }
 
+data_lock = threading.Lock()
+
 # Price fluctuation logic (one item at a time)
 def fluctuate_market():
     while True:
         time.sleep(10)
 
-        item = random.choice(list(market_prices.keys()))
-        change = random.randint(-25, 25)
+        with data_lock:
+            item = random.choice(list(market_prices.keys()))
+            change = random.randint(-25, 25)
 
-        old_price = market_prices[item]
-        new_price = max(1, old_price + change)
-        market_prices[item] = new_price
+            old_price = market_prices[item]
+            new_price = max(1, old_price + change)
+            market_prices[item] = new_price
 
-        # Update only that item's rumor
-        if change > 0:
-            market_rumors[item] = f"📈 {item} prices rose due to rising demand."
-        elif change < 0:
-            market_rumors[item] = f"📉 {item} prices dropped after market surplus."
-        else:
-            market_rumors[item] = f"🌀 The value of {item} remains unchanged."
-        # Reset others
-        for other in market_prices:
-            if other != item:
-                market_rumors[other] = f"🔁 The value of {other} remains unchanged."
-
+            # Update only that item's rumor
+            if change > 0:
+                market_rumors[item] = f"📈 {item} prices rose due to rising demand."
+            elif change < 0:
+                market_rumors[item] = (
+                    f"📉 {item} prices dropped after market surplus."
+                )
+            else:
+                market_rumors[item] = f"🌀 The value of {item} remains unchanged."
+            # Reset others
+            for other in market_prices:
+                if other != item:
+                    market_rumors[other] = (
+                        f"🌀 The value of {other} remains unchanged."
+                    )
 
 @app.route("/")
 def index():
@@ -62,30 +68,32 @@ def index():
 
 @app.route("/api/market")
 def api_market():
-    return jsonify({
-        "prices": market_prices,
-        "inventory": inventory,
-        "rumors": market_rumors
-    })
+    with data_lock:
+        data = {
+            "prices": dict(market_prices),
+            "inventory": dict(inventory),
+            "rumors": dict(market_rumors),
+        }
+    return jsonify(data)
 
 
 @app.route("/trade/<action>/<item>", methods=["POST"])
 def trade(action, item):
     item = item.title()
-    if item not in market_prices:
-        return "Item not found", 400
+    with data_lock:
+        if item not in market_prices:
+            return "Item not found", 400
 
-    price = market_prices[item]
+        price = market_prices[item]
 
-    if action == "buy":
-        if inventory["Gold"] >= price:
-            inventory["Gold"] -= price
-            inventory[item] += 1
-    elif action == "sell":
-        if inventory[item] > 0:
-            inventory["Gold"] += price
-            inventory[item] -= 1
-
+        if action == "buy":
+            if inventory["Gold"] >= price:
+                inventory["Gold"] -= price
+                inventory[item] += 1
+        elif action == "sell":
+            if inventory[item] > 0:
+                inventory["Gold"] += price
+                inventory[item] -= 1
     return ("", 204)
 
 
