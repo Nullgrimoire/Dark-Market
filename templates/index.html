@@ -1,25 +1,67 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dark Market</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script>
+    async function updateMarket() {
+      const res = await fetch('/api/market');
+      const data = await res.json();
 
-{% block content %}
-<h2>Market Prices</h2>
-<ul>
-  {% for item, price in market.items() %}
-    <li>
-      {{ item }} — {{ price }} gold
-      <form action="{{ url_for('trade') }}" method="POST" style="display:inline;">
-        <input type="hidden" name="item" value="{{ item }}">
-        <button name="action" value="buy">Buy</button>
-        <button name="action" value="sell">Sell</button>
-      </form>
-    </li>
-  {% endfor %}
-</ul>
+      const pricesEl = document.getElementById("prices");
+      pricesEl.innerHTML = "";
+      for (const [item, price] of Object.entries(data.prices)) {
+        pricesEl.innerHTML += `
+          <li>${item} – <span class="gold">${price}</span> gold
+            <button onclick="trade('${item}', 'buy')">Buy</button>
+            <button onclick="trade('${item}', 'sell')">Sell</button>
+          </li>`;
+      }
 
-<h2>Your Inventory</h2>
-<ul>
-  <li>Gold: {{ inventory['gold'] }}</li>
-  {% for item, qty in inventory.items() if item != 'gold' %}
-    <li>{{ item }}: {{ qty }}</li>
-  {% endfor %}
-</ul>
-{% endblock %}
+      const rumorsEl = document.getElementById("rumors");
+      rumorsEl.innerHTML = "";
+      for (const [item, rumor] of Object.entries(data.rumors)) {
+        rumorsEl.innerHTML += `<li><strong>${item}:</strong> ${rumor}</li>`;
+      }
+    }
+
+    async function trade(item, action) {
+      await fetch(`/trade/${action}/${item}`, { method: "POST" });
+      updateMarket();
+    }
+
+    setInterval(updateMarket, 10000);
+    window.onload = updateMarket;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="icon">🌑</span>
+      <h1>Dark Market</h1>
+    </div>
+
+    <div class="market-info">
+      <h2>Market Prices</h2>
+      <ul id="prices"></ul>
+
+      <h2>Your Inventory</h2>
+      <div class="inventory">
+        <p>Gold: {{ inventory["Gold"] }}</p>
+        {% for item, qty in inventory.items() if item != "Gold" %}
+          <p>{{ item }}: {{ qty }}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="rumors">
+      <h2>Market Rumors</h2>
+      {% for item in item_order %}
+      <p><strong>{{ item }}:</strong> {{ rumors[item] }}</p>
+      {% endfor %}
+      <ul id="rumors"></ul>
+    </div>
+  </div>
+</body>
+</html>

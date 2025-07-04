@@ -1,22 +1,78 @@
 body {
-    font-family: monospace;
-    background-color: #1a1a1a;
-    color: #f0e6ff;
-    padding: 20px;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(to bottom right, #0a0a0f, #1a1a2e);
+  color: #e0d6f5;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
 }
 
-h1, h2 {
-    color: #9f7aea;
+.container {
+  background: #111;
+  border: 2px solid #6e2ca7;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #6e2ca7;
+  width: 700px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 2rem;
+  color: #bb86fc;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+h2 {
+  color: #bb86fc;
+  margin-top: 1.5rem;
+}
+
+.gold {
+  color: gold;
+  font-weight: bold;
+}
+
+.inventory, .rumors {
+  background: #1b1b2f;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  box-shadow: 0 0 10px #6e2ca7 inset;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
 }
 
 button {
-    background-color: #2d2d2d;
-    color: #f0e6ff;
-    border: 1px solid #9f7aea;
-    margin-left: 10px;
-    cursor: pointer;
+  background-color: #6e2ca7;
+  border: 2px solid #bb86fc;
+  color: #fff;
+  padding: 5px 12px;
+  margin-left: 5px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 0 5px #bb86fc, 0 0 10px #6e2ca7 inset;
+  transition: all 0.2s ease-in-out;
 }
 
 button:hover {
-    background-color: #4b0082;
+  background-color: #bb86fc;
+  color: #000;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #bb86fc, 0 0 20px #6e2ca7;
 }
