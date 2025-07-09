@@ -6,49 +6,50 @@
   <title>Dark Market | Nullgrimoire</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/sigil.png') }}">
-
   <script>
     async function updateMarket() {
-      console.log('Fetching market data...');
       const res = await fetch(`/api/market?t=${Date.now()}`);
       const data = await res.json();
-      console.log('Received market data:', data);
-
+      // Market Prices
       const pricesEl = document.getElementById("prices");
       pricesEl.innerHTML = "";
       for (const [item, price] of Object.entries(data.prices)) {
         pricesEl.innerHTML += `
-          <li class=\"market-row\">
-            <span class=\"item-label\">${item} – <span class=\"gold\">${price}</span> gold</span>
-            <div class=\"market-buttons\">
-              <button class=\"buy-btn\" onclick=\"trade('${item}', 'buy', 1)\">Buy 1</button>
-              <button class=\"buy-btn\" onclick=\"trade('${item}', 'buy', 5)\">Buy 5</button>
-              <button class=\"buy-btn\" onclick=\"trade('${item}', 'buy', 10)\">Buy 10</button>
-              <button class=\"buy-btn\" onclick=\"trade('${item}', 'buy', 'max')\">Buy Max</button>
-              <button class=\"sell-btn\" onclick=\"trade('${item}', 'sell', 'max')\">Sell Max</button>
-              <button class=\"sell-btn\" onclick=\"trade('${item}', 'sell', 10)\">Sell 10</button>
-              <button class=\"sell-btn\" onclick=\"trade('${item}', 'sell', 5)\">Sell 5</button>
-              <button class=\"sell-btn\" onclick=\"trade('${item}', 'sell', 1)\">Sell 1</button>
+          <div class='market-item'>
+            <div class='market-item-header'>
+              <span class='market-item-name'>${item}</span>
+              <span class='market-item-price'>${price} <span class='gold'>gold</span></span>
             </div>
-          </li>`;
+            <div class='market-actions'>
+              <button onclick=\"trade('${item}', 'buy', 1)\">Buy 1</button>
+              <button onclick=\"trade('${item}', 'buy', 5)\">Buy 5</button>
+              <button onclick=\"trade('${item}', 'buy', 10)\">Buy 10</button>
+              <button onclick=\"trade('${item}', 'buy', 'max')\">Buy Max</button>
+              <button onclick=\"trade('${item}', 'sell', 1)\">Sell 1</button>
+              <button onclick=\"trade('${item}', 'sell', 5)\">Sell 5</button>
+              <button onclick=\"trade('${item}', 'sell', 10)\">Sell 10</button>
+              <button onclick=\"trade('${item}', 'sell', 'max')\">Sell Max</button>
+            </div>
+          </div>`;
       }
-
-      const rumorsEl = document.getElementById("rumors");
-      rumorsEl.innerHTML = "";
+      // Market News
+      const newsEl = document.getElementById("market-news");
+      newsEl.innerHTML = "";
       for (const [item, rumor] of Object.entries(data.rumors)) {
-        rumorsEl.innerHTML += `<li><strong>${item}:</strong> ${rumor}</li>`;
+        newsEl.innerHTML += `<li><span class='news-item-name'>${item}:</span> <span class='news-item-text'>${rumor}</span></li>`;
       }
-
-      const inventoryEl = document.querySelector('.inventory');
-      inventoryEl.innerHTML = `<p>Gold: ${data.inventory["Gold"]}</p>`;
+      // Inventory
+      const inventoryEl = document.getElementById('inventory-list');
+      inventoryEl.innerHTML = '';
+      // Ensure Gold is always at the top
+      if ('Gold' in data.inventory) {
+        inventoryEl.innerHTML += `<li><span>Gold:</span> <span>${data.inventory['Gold']}</span></li>`;
+      }
       for (const [item, qty] of Object.entries(data.inventory)) {
-        if (item !== 'Gold') {
-          inventoryEl.innerHTML += `<p>${item}: ${qty}</p>`;
-        }
+        if (item === 'Gold') continue;
+        inventoryEl.innerHTML += `<li><span>${item}:</span> <span>${qty}</span></li>`;
       }
-      console.log('Market data updated at:', new Date().toLocaleTimeString());
     }
-
     async function trade(item, action, quantity) {
       await fetch(`/trade/${action}/${item}`, {
         method: "POST",
@@ -57,38 +58,34 @@
       });
       updateMarket();
     }
-
     setInterval(updateMarket, 2500);
     window.onload = updateMarket;
   </script>
 </head>
 <body>
-  <div class="container-flex">
-    <div class="main-column">
-      <div class="branding">
-        <img src="{{ url_for('static', filename='images/sigil.png') }}" class="sigil" alt="Nullgrimoire Sigil">
-        <div class="brand-text">
-          <h1>Dark Market</h1>
-          <p class="byline">by Nullgrimoire</p>
-        </div>
-      </div>
-
-      <div class="market-info">
-        <h2>Market Prices</h2>
-        <ul id="prices"></ul>
-
-        <h2>Your Inventory</h2>
-        <div class="inventory">
-          <p>Loading inventory...</p>
-        </div>
-      </div>
+  <header class="header">
+    <img src="{{ url_for('static', filename='images/sigil.png') }}" class="logo" alt="Nullgrimoire Sigil">
+    <div class="header-title">
+      <h1>Dark Market</h1>
+      <p class="byline">by Nullgrimoire</p>
     </div>
-    <div class="rumors-column">
-      <div class="rumors-box">
+  </header>
+  <main class="main-content">
+    <section class="market-section glass-card">
+      <h2>Market Prices</h2>
+      <div id="prices"></div>
+    </section>
+    <section class="side-section">
+      <div class="glass-card news-card">
         <h2>Market News</h2>
-        <ul id="rumors"></ul>
+        <ul id="market-news"></ul>
       </div>
-    </div>
-  </div>
+      <div class="glass-card inventory-card">
+        <h2>Your Inventory</h2>
+        <ul id="inventory-list"></ul>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
+
