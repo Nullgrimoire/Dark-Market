@@ -14,8 +14,16 @@ class Player:
             print("That item doesn't exist.")
             return
 
+        try:
+            amount = int(input(f"How many {item}s? "))
+            if amount <= 0:
+                print("Please enter a positive number.")
+                return
+        except ValueError:
+            print("Please enter a valid number.")
+            return
+
         price = market.prices[item]
-        amount = int(input(f"How many {item}s? "))
         total = price * amount
 
         if self.gold >= total:
@@ -31,7 +39,15 @@ class Player:
             print("You don't own any of that.")
             return
 
-        amount = int(input(f"How many {item}s to sell? "))
+        try:
+            amount = int(input(f"How many {item}s to sell? "))
+            if amount <= 0:
+                print("Please enter a positive number.")
+                return
+        except ValueError:
+            print("Please enter a valid number.")
+            return
+
         if amount > self.inventory[item]:
             print("You don't have that many.")
             return
