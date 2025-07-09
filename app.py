@@ -21,12 +21,24 @@ inventory = {
     "Cursed Gem": 0
 }
 
-market_rumors = {
-    "Dragon Bone": "🔮 A seer predicted a surge in Dragon Bone demand.",
-    "Soul Ash": "🔥 Short supply and high demand caused a Soul Ash price spike.",
-    "Aether Silk": "🔁 The value of Aether Silk remains unchanged.",
-    "Cursed Gem": "🔁 The value of Cursed Gem remains unchanged."
-}
+# Market news history (last 5 changes)
+market_news = [
+    "[*] A seer predicted a surge in Dragon Bone demand.",
+    "[*] Short supply and high demand caused a Soul Ash price spike.",
+    "[~] The value of Aether Silk remains unchanged.",
+    "[~] The value of Cursed Gem remains unchanged."
+]
+
+# Major market events (name, {item: modifier})
+MAJOR_EVENTS = [
+    ("Elven civil war erupts!", {"Aether Silk": 0.5}),
+    ("Necromancer rises in the East!", {"Soul Ash": 0.6}),
+    ("Dragon Bone smuggling ring exposed!", {"Dragon Bone": 0.5}),
+    ("Cursed Gem declared illegal!", {"Cursed Gem": -0.5}),
+    ("Aether Silk market flooded!", {"Aether Silk": -0.4}),
+    ("Dragon Bone shortage after mine collapse!", {"Dragon Bone": 0.7}),
+    ("Soul Ash ritual backfires!", {"Soul Ash": -0.6}),
+]
 
 data_lock = threading.Lock()
 
@@ -36,8 +48,22 @@ def fluctuate_market():
         time.sleep(5)
 
         with data_lock:
+            # 1 in 15 chance for a major event
+            if random.randint(1, 15) == 1:
+                event, effects = random.choice(MAJOR_EVENTS)
+                for item, modifier in effects.items():
+                    base = market_prices[item]
+                    change = round(base * modifier)
+                    old_price = market_prices[item]
+                    market_prices[item] = max(1, base + change)
+                    news = f"[!] {event} {item} price {'rose' if change > 0 else 'fell'} by {abs(change)} gold."
+                    market_news.append(news)
+                    if len(market_news) > 5:
+                        market_news.pop(0)
+                continue  # skip normal fluctuation this cycle
+
             item = random.choice(list(market_prices.keys()))
-            change = random.randint(-25, 25)
+            change = random.randint(-50, 50)
 
             old_price = market_prices[item]
             new_price = max(1, old_price + change)
@@ -46,26 +72,22 @@ def fluctuate_market():
             # Debug logging
             print(f"Price change: {item} {old_price} -> {new_price} (change: {change:+d})")
 
-            # Update only that item's rumor
+            # Create news entry
             if change > 0:
-                market_rumors[item] = f"📈 {item} prices rose due to rising demand."
+                news = f"[^] {item} prices rose due to rising demand."
             elif change < 0:
-                market_rumors[item] = (
-                    f"📉 {item} prices dropped after market surplus."
-                )
+                news = f"[v] {item} prices dropped after market surplus."
             else:
-                market_rumors[item] = f"🌀 The value of {item} remains unchanged."
-            # Reset others
-            for other in market_prices:
-                if other != item:
-                    market_rumors[other] = (
-                        f"🌀 The value of {other} remains unchanged."
-                    )
+                news = f"[~] The value of {item} remains unchanged."
+            market_news.append(news)
+            # Keep only last 5 news
+            if len(market_news) > 5:
+                market_news.pop(0)
 
 @app.route("/")
 def index():
     item_order = ["Dragon Bone", "Soul Ash", "Aether Silk", "Cursed Gem"]
-    return render_template("index.html", prices=market_prices, inventory=inventory, rumors=market_rumors, item_order=item_order)
+    return render_template("index.html", prices=market_prices, inventory=inventory, rumors=market_news, item_order=item_order)
 
 
 
@@ -75,7 +97,7 @@ def api_market():
         data = {
             "prices": dict(market_prices),
             "inventory": dict(inventory),
-            "rumors": dict(market_rumors),
+            "rumors": list(market_news),
         }
     print(f"API call: Current prices: {data['prices']}")
     return jsonify(data)

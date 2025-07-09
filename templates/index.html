@@ -39,8 +39,8 @@
       // Market News
       const newsEl = document.getElementById("market-news");
       newsEl.innerHTML = "";
-      for (const [item, rumor] of Object.entries(data.rumors)) {
-        newsEl.innerHTML += `<li><span class='news-item-name'>${item}:</span> <span class='news-item-text'>${rumor}</span></li>`;
+      for (const news of data.rumors) {
+        newsEl.innerHTML += `<li><span class='news-item-text'>${news}</span></li>`;
       }
       // Inventory
       const inventoryEl = document.getElementById('inventory-list');
@@ -62,7 +62,7 @@
       });
       updateMarket();
     }
-    setInterval(updateMarket, 2500);
+    setInterval(updateMarket, 1000);
     window.onload = updateMarket;
   </script>
 </head>

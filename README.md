@@ -6,13 +6,7 @@ Sharpen your instincts, interpret the signs, and manipulate the arcane markets t
 
 ## 🚀 Quick Start
 
-Want to try it right now? Run the test suite to verify everything works:
-
-```bash
-python3 test_project.py
-```
-
-Then start the web version:
+Start the web version:
 ```bash
 ./run.sh
 ```
@@ -24,13 +18,13 @@ cd CLI && python3 main.py
 
 ## 🧙‍♂️ Features
 
-- 💰 Trade magical items like Wyvern Scales, Ectoplasm, and Dragon Bone
+- 💰 Trade magical items (different sets in Web and CLI modes)
 - 🌪️ Random world events dynamically affect the economy each turn
 - 📈 Market volatility keeps prices in constant flux
 - 🧾 Track your inventory and balance while making strategic buys and sells
 - 📜 Lore-driven event log immerses you in the ever-shifting world
-- 🌐 **Web Interface**: Real-time trading with live price updates
-- 🖥️ **CLI Mode**: Classic terminal-based gameplay
+- 🌐 **Web Interface**: Real-time trading with live price updates, retro pixel-art UI
+- 🖥️ **CLI Mode**: Classic terminal-based gameplay with text menus
 
 ## 🛠️ Installation
 
@@ -86,34 +80,45 @@ Use gold wisely. Random events can spike or crash prices. Can you master the arc
 
 ## 📦 Available Items
 
-| Item             | Base Price | Volatility |
-|------------------|------------|------------|
-| Wyvern Scales    | 50 gold    | High       |
-| Ectoplasm        | 70 gold    | Very High  |
-| Elven Wine       | 40 gold    | Low        |
-| Phoenix Feather  | 120 gold   | High       |
-| Goblin Tech      | 90 gold    | Medium     |
-| Dragon Bone      | 200 gold   | Extreme    |
+**Note:** The available items differ between the Web and CLI versions.
+
+### Web Version
+| Item         | Base Price | Volatility |
+|--------------|------------|------------|
+| Dragon Bone  | 150 gold   | High       |
+| Soul Ash     | 80 gold    | Medium     |
+| Aether Silk  | 50 gold    | Low        |
+| Cursed Gem   | 200 gold   | Extreme    |
+
+### CLI Version
+| Item            | Base Price | Volatility |
+|-----------------|------------|------------|
+| Wyvern Scales   | 50 gold    | High       |
+| Ectoplasm       | 70 gold    | Very High  |
+| Elven Wine      | 40 gold    | Low        |
+| Phoenix Feather | 120 gold   | High       |
+| Goblin Tech     | 90 gold    | Medium     |
+| Dragon Bone     | 200 gold   | Extreme    |
 
 ## 🏗️ Project Structure
 
 ```
 Dark-Market/
-├── app.py              # Flask web application
-├── CLI/                # Command-line interface
+├── app.py              # Flask web application (Web mode)
+├── CLI/                # Command-line interface (CLI mode)
 │   ├── main.py         # CLI entry point
-│   ├── market.py       # Market logic
-│   ├── inventory.py    # Player inventory system
-│   ├── events.py       # World events system
-│   └── Items.py        # Item definitions
-├── templates/          # HTML templates
+│   ├── market.py       # Market logic (CLI)
+│   ├── inventory.py    # Player inventory system (CLI)
+│   ├── events.py       # World events system (CLI)
+│   └── Items.py        # Item definitions (CLI)
+├── templates/          # HTML templates (Web)
 │   └── index.html      # Main web interface
-├── static/             # Static assets
+├── static/             # Static assets (Web)
 │   ├── style.css       # Web styling
 │   └── images/         # Images and icons
 ├── requirements.txt    # Python dependencies
-├── run.sh             # Web server startup script
-└── README.md          # This file
+├── run.sh              # Web server startup script
+└── README.md           # This file
 ```
 
 ## 🔮 Planned Features
@@ -126,9 +131,14 @@ Dark-Market/
 - 📊 Trading statistics and charts
 - 🎭 Character customization
 
-## 🐛 Troubleshooting
+## ❗ Known Limitations
 
-### Common Issues
+- No persistent save system: Progress is lost when you exit.
+- No user accounts or multiplayer.
+- No automated test suite (ignore references to `test_project.py`).
+- Web and CLI versions use different item sets and event logic.
+
+## 🐛 Troubleshooting
 
 **Flask not found**: Make sure you've activated the virtual environment and installed requirements:
 ```bash
