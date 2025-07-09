@@ -132,9 +132,18 @@ h2 {
 
 .market-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.2em;
+  flex-direction: column;
+  gap: 0.3em;
   margin-bottom: 0.1em;
+}
+.market-actions-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.2em;
+}
+.market-actions-row button {
+  flex: 1 1 0;
+  min-width: 0;
 }
 .market-actions button {
   background: var(--black);

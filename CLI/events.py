@@ -6,7 +6,7 @@ EVENTS = [
     ("Goblin invents lightning bolt battery!", {"Goblin Tech": 0.4}),
     ("Wyvern migration floods the market!", {"Wyvern Scales": -0.3}),
     ("Phoenix born anew in the highlands!", {"Phoenix Feather": -0.4}),
-    ("Dragonbone smuggling ring exposed!", {"Dragonbone": 0.5}),
+    ("Dragon Bone smuggling ring exposed!", {"Dragon Bone": 0.5}),
 ]
 
 class EventManager:

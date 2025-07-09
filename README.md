@@ -24,7 +24,7 @@ cd CLI && python3 main.py
 
 ## 🧙‍♂️ Features
 
-- 💰 Trade magical items like Wyvern Scales, Ectoplasm, and Dragonbone
+- 💰 Trade magical items like Wyvern Scales, Ectoplasm, and Dragon Bone
 - 🌪️ Random world events dynamically affect the economy each turn
 - 📈 Market volatility keeps prices in constant flux
 - 🧾 Track your inventory and balance while making strategic buys and sells
@@ -93,7 +93,7 @@ Use gold wisely. Random events can spike or crash prices. Can you master the arc
 | Elven Wine       | 40 gold    | Low        |
 | Phoenix Feather  | 120 gold   | High       |
 | Goblin Tech      | 90 gold    | Medium     |
-| Dragonbone       | 200 gold   | Extreme    |
+| Dragon Bone      | 200 gold   | Extreme    |
 
 ## 🏗️ Project Structure
 

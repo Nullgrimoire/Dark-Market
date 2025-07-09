@@ -10,6 +10,8 @@ class Player:
 
     def buy_item(self, market):
         item = input("What do you want to buy? ").strip().title()
+        if item == "Dragonbone":
+            item = "Dragon Bone"
         if item not in market.prices:
             print("That item doesn't exist.")
             return
@@ -35,6 +37,8 @@ class Player:
 
     def sell_item(self, market):
         item = input("What do you want to sell? ").strip().title()
+        if item == "Dragonbone":
+            item = "Dragon Bone"
         if item not in self.inventory or self.inventory[item] == 0:
             print("You don't own any of that.")
             return

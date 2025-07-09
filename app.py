@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Starting prices
 market_prices = {
-    "Dragonbone": 150,
+    "Dragon Bone": 150,
     "Soul Ash": 80,
     "Aether Silk": 50,
     "Cursed Gem": 200
@@ -15,14 +15,14 @@ market_prices = {
 
 inventory = {
     "Gold": 500,
-    "Dragonbone": 0,
+    "Dragon Bone": 0,
     "Soul Ash": 0,
     "Aether Silk": 0,
     "Cursed Gem": 0
 }
 
 market_rumors = {
-    "Dragonbone": "🔮 A seer predicted a surge in Dragonbone demand.",
+    "Dragon Bone": "🔮 A seer predicted a surge in Dragon Bone demand.",
     "Soul Ash": "🔥 Short supply and high demand caused a Soul Ash price spike.",
     "Aether Silk": "🔁 The value of Aether Silk remains unchanged.",
     "Cursed Gem": "🔁 The value of Cursed Gem remains unchanged."
@@ -64,7 +64,7 @@ def fluctuate_market():
 
 @app.route("/")
 def index():
-    item_order = ["Dragonbone", "Soul Ash", "Aether Silk", "Cursed Gem"]
+    item_order = ["Dragon Bone", "Soul Ash", "Aether Silk", "Cursed Gem"]
     return render_template("index.html", prices=market_prices, inventory=inventory, rumors=market_rumors, item_order=item_order)
 
 

@@ -21,14 +21,18 @@
               <span class='market-item-price'>${price} <span class='gold'>gold</span></span>
             </div>
             <div class='market-actions'>
-              <button onclick=\"trade('${item}', 'buy', 1)\">Buy 1</button>
-              <button onclick=\"trade('${item}', 'buy', 5)\">Buy 5</button>
-              <button onclick=\"trade('${item}', 'buy', 10)\">Buy 10</button>
-              <button onclick=\"trade('${item}', 'buy', 'max')\">Buy Max</button>
-              <button onclick=\"trade('${item}', 'sell', 1)\">Sell 1</button>
-              <button onclick=\"trade('${item}', 'sell', 5)\">Sell 5</button>
-              <button onclick=\"trade('${item}', 'sell', 10)\">Sell 10</button>
-              <button onclick=\"trade('${item}', 'sell', 'max')\">Sell Max</button>
+              <div class='market-actions-row'>
+                <button onclick=\"trade('${item}', 'buy', 1)\">Buy 1</button>
+                <button onclick=\"trade('${item}', 'buy', 5)\">Buy 5</button>
+                <button onclick=\"trade('${item}', 'buy', 10)\">Buy 10</button>
+                <button onclick=\"trade('${item}', 'buy', 'max')\">Buy Max</button>
+              </div>
+              <div class='market-actions-row'>
+                <button onclick=\"trade('${item}', 'sell', 1)\">Sell 1</button>
+                <button onclick=\"trade('${item}', 'sell', 5)\">Sell 5</button>
+                <button onclick=\"trade('${item}', 'sell', 10)\">Sell 10</button>
+                <button onclick=\"trade('${item}', 'sell', 'max')\">Sell Max</button>
+              </div>
             </div>
           </div>`;
       }

@@ -4,5 +4,5 @@ ITEMS = {
     "Elven Wine": {"base_price": 40, "volatility": 0.2},
     "Phoenix Feather": {"base_price": 120, "volatility": 0.6},
     "Goblin Tech": {"base_price": 90, "volatility": 0.4},
-    "Dragonbone": {"base_price": 200, "volatility": 0.7},
+    "Dragon Bone": {"base_price": 200, "volatility": 0.7},
 }
