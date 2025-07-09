@@ -50,6 +50,24 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+## 🧪 Running Tests
+
+This project includes an automated test suite covering both the web and CLI modes.
+
+1. Install dependencies (if not already done):
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Run all tests with:
+   ```bash
+   pytest test_project.py
+   ```
+
+The tests cover:
+- Web (Flask) API endpoints and trading logic
+- CLI modules: Market, Player, EventManager, and Items
+- Simulated user input for CLI actions
+
 ## 🎮 How to Play
 
 ### Web Mode (Recommended)
@@ -135,8 +153,8 @@ Dark-Market/
 
 - No persistent save system: Progress is lost when you exit.
 - No user accounts or multiplayer.
-- No automated test suite (ignore references to `test_project.py`).
 - Web and CLI versions use different item sets and event logic.
+- Automated test suite covers core features, but may not cover every edge case or future planned features.
 
 ## 🐛 Troubleshooting
 
