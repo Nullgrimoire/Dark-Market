@@ -1,24 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-body {
+html, body {
+  height: 100%;
   margin: 0;
-  font-family: 'Press Start 2P', monospace;
+  padding: 0;
+}
+body {
+  height: 100vh;
+  min-height: unset;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(to bottom right, #0a0a0f, #1a1a2e);
   color: #e0d6f5;
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
+  font-family: 'Press Start 2P', monospace;
+  padding-top: 0.5em;
+  overflow: hidden;
 }
 
 .container {
   background: #111;
   border: 2px solid #6e2ca7;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 20px;
   box-shadow: 0 0 20px #6e2ca7;
   width: 90%;
   max-width: 700px;
   animation: fadeIn 0.8s ease-out;
+  box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -30,7 +38,9 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1em;
+  margin-top: 2.2em;
+  margin-left: 0;
 }
 
 .sigil {
@@ -63,9 +73,9 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 2rem;
+  font-size: 1.7rem;
   color: #bb86fc;
-  margin-bottom: 1rem;
+  margin-bottom: 0.7rem;
 }
 
 .icon {
@@ -74,8 +84,14 @@ body {
 
 h2 {
   color: #bb86fc;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0.7rem;
+  font-size: 1.2rem;
   animation: glowText 4s ease-in-out infinite;
+}
+
+.market-info h2 {
+  margin-bottom: 0.5em;
 }
 
 @keyframes glowText {
@@ -94,6 +110,15 @@ h2 {
   border-radius: 10px;
   margin-top: 0.5rem;
   box-shadow: 0 0 10px #6e2ca7 inset;
+}
+
+.inventory {
+  min-height: unset;
+  height: auto;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 0.3rem;
+  padding: 0.7rem;
 }
 
 ul {
@@ -125,14 +150,66 @@ button:hover {
   box-shadow: 0 0 10px #bb86fc, 0 0 20px #6e2ca7;
 }
 
-.footer {
-  font-size: 0.75rem;
-  text-align: center;
-  color: #666;
-  margin-top: 2rem;
-  font-family: 'Courier New', monospace;
+/* --- Improved Buy/Sell Button Styles --- */
+.market-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.08em;
+  margin-top: 0.1em;
+  margin-bottom: 0.2em;
+  justify-content: center;
+  max-width: 100%;
+}
+.market-buttons .buy-btn,
+.market-buttons .sell-btn {
+  min-width: 48px;
+  padding: 0.12em 0.3em;
+  font-size: 0.85em;
+  margin-bottom: 1px;
+  border-radius: 6px;
+}
+/* Remove border-radius rules for :first-child and :last-child */
+.market-buttons .buy-btn:not(:first-child),
+.market-buttons .buy-btn:last-child,
+.market-buttons .sell-btn:not(:first-child),
+.market-buttons .sell-btn:last-child {
+  border-radius: 6px;
+  border-left: none;
+}
+.market-buttons .buy-btn:hover {
+  background: #2e5a2e;
+  color: #fff;
+}
+.market-buttons .sell-btn:hover {
+  background: #5a2e2e;
+  color: #fff;
 }
 
+/* Make the item/price row more compact */
+#prices li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0.4em;
+  gap: 0.15em;
+  width: 100%;
+}
+
+.market-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  margin-bottom: 0.7em;
+  width: 100%;
+}
+.item-label {
+  font-size: 1.15em;
+  white-space: nowrap;
+}
+
+/* Responsive for mobile */
 @media (max-width: 600px) {
   .container {
     width: 95%;
@@ -174,7 +251,109 @@ button:hover {
     font-size: 0.85rem;
   }
 
-  .footer {
-    font-size: 0.65rem;
+  .market-buttons {
+    flex-wrap: wrap;
+    gap: 0.12em;
+    justify-content: center;
+  }
+  #prices li {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2em;
   }
 }
+@media (max-width: 700px) {
+  .market-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3em;
+  }
+  .item-label {
+    font-size: 1em;
+  }
+}
+
+.container-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  flex: 1 0 auto;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.main-column, .rumors-column {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.market-info, .inventory, .rumors-box {
+  text-align: left;
+}
+
+.main-column, .rumors-column {
+  overflow-y: auto;
+  max-height: 98vh;
+}
+.main-column {
+  flex: 2 1 500px;
+  min-width: 320px;
+}
+.rumors-column {
+  flex: 1 1 320px;
+  min-width: 260px;
+  max-width: 400px;
+}
+.rumors-box {
+  background: #18182a;
+  border: 2px solid #7d4aff;
+  border-radius: 16px;
+  padding: 1.5em 1.5em 1em 1.5em;
+  margin-top: 1.2em;
+  margin-right: 0.7em;
+  color: #e0d6ff;
+  box-shadow: 0 0 16px #7d4aff44;
+}
+.rumors-box h2 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: #c9aaff;
+  font-size: 1.1em;
+}
+.rumors-box ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.rumors-box li {
+  margin-bottom: 0.4em;
+  font-size: 0.98em;
+}
+@media (max-width: 1000px) {
+  .container-flex {
+    flex-direction: column;
+    gap: 1.5em;
+    align-items: stretch;
+  }
+  .rumors-column {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .main-column {
+    min-width: 0;
+  }
+  .rumors-box {
+    margin-top: 0.5em;
+  }
+}
+
+body, .container, .container-flex {
+  font-size: 0.97em;
+}
+

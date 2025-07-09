@@ -33,7 +33,7 @@ data_lock = threading.Lock()
 # Price fluctuation logic (one item at a time)
 def fluctuate_market():
     while True:
-        time.sleep(10)
+        time.sleep(5)
 
         with data_lock:
             item = random.choice(list(market_prices.keys()))
@@ -42,6 +42,9 @@ def fluctuate_market():
             old_price = market_prices[item]
             new_price = max(1, old_price + change)
             market_prices[item] = new_price
+
+            # Debug logging
+            print(f"Price change: {item} {old_price} -> {new_price} (change: {change:+d})")
 
             # Update only that item's rumor
             if change > 0:
@@ -74,29 +77,39 @@ def api_market():
             "inventory": dict(inventory),
             "rumors": dict(market_rumors),
         }
+    print(f"API call: Current prices: {data['prices']}")
     return jsonify(data)
 
 
 @app.route("/trade/<action>/<item>", methods=["POST"])
 def trade(action, item):
     item = item.title()
+    data = request.get_json()
+    quantity = data.get("quantity", 1)
     with data_lock:
         if item not in market_prices:
             return "Item not found", 400
 
         price = market_prices[item]
-
         if action == "buy":
-            if inventory["Gold"] >= price:
-                inventory["Gold"] -= price
-                inventory[item] += 1
+            if quantity == "max":
+                quantity = inventory["Gold"] // price
+            else:
+                quantity = int(quantity)
+            total_cost = price * quantity
+            if inventory["Gold"] >= total_cost and quantity > 0:
+                inventory["Gold"] -= total_cost
+                inventory[item] += quantity
         elif action == "sell":
-            if inventory[item] > 0:
-                inventory["Gold"] += price
-                inventory[item] -= 1
+            if quantity == "max":
+                quantity = inventory[item]
+            else:
+                quantity = int(quantity)
+            if inventory[item] >= quantity and quantity > 0:
+                inventory["Gold"] += price * quantity
+                inventory[item] -= quantity
     return ("", 204)
 
-
+threading.Thread(target=fluctuate_market, daemon=True).start()
 if __name__ == "__main__":
-    threading.Thread(target=fluctuate_market, daemon=True).start()
     app.run(debug=False, host="0.0.0.0", port=5000)
